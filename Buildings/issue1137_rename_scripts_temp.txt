@@ -2,24 +2,48 @@
 
 for ff in `find . \( -name '*.mo' -or -name '*.mos' -or -name '*.py' -or -name '*.txt' -or -name '*.svg' \)`; do
     list=(\
-    ecoDamLim damLim \
-    ecoEnaDis enaDis \
-    ecoMod mod \
-    uVOutMinSet_flow VOutMinSet_flow \
-    minVOut_flow VOutMin_flow \
-    desVOut_flow VOutDes_flow \
-    conSigMin yMin \
-    conSigMax yMax \
-    minFanSpe yFanMin \
-    maxFanSpe yFanMax \
-    fansSpePos fanSpePos \
-    curFanSpe uSupFan \
-    desVOutMinFanSpePos yDam_VOutDes_minSpe \
-    desVOutCurFanSpePos yDam_VOutDes_curSpe \
-    desVOutMaxFanSpePos yDam_VOutDes_maxSpe \
-    minVOutMinFanSpePos yDam_VOutMin_minSpe \
-    minVOutCurFanSpePos yDam_VOutMin_curSpe \
-    minVOutMaxFanSpePos yDam_VOutMin_maxSpe \
+# old_name new_name
+
+# Some justifications behind suggested modifications:
+
+# 1) if the model name indicates that the model calculates a value, I'd still prefer to 
+# fully specify the G36 relevant properties of the value in the variable name. For example
+# ZoneTemperatures: THeaSet -change to> TZonHeaSet. The goal would be to use the same
+# variable name for the same physical/setpoint value throughout the G36 package, where possible. 
+
+# 2)
+#
+# 
+
+# in Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.SetPoints.ZoneTemperatures
+    
+     occCooSet occTDisSet \
+     TCooSet TZonCooSet \ 
+     THeaSet TZonHeaSet \ 
+     TCooOnMax TZonCooSetMax \  
+     TCooOnMin TZonCooSetMin \
+     THeaOnMax TZonHeaSetMax \
+     THeaOnMin TZonHeaSetMin \
+     TCooWinOpe TZonCooSetWinOpe \
+     THeaWinOpe TZonHeaSetWinOpe \ 
+
+# in Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.Reheat.SetPoints.ActiveAirFlow
+
+     \
+     \
+     \
+     \
+     \
+     \
+     \
+     \
+     \
+     \
+     \
+     \
+     \
+     \
+     \
     )
 
     for ((i=0; i<${#list[@]}; i+=2)); do
