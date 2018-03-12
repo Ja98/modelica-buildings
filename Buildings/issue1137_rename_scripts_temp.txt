@@ -1,66 +1,101 @@
-# variables to rename
+## variables to rename
+#
+# for ff in `find . \( -name '*.mo' -or -name '*.mos' -or -name '*.py' -or -name '*.txt' -or -name '*.svg' # \)`; do
+#    list=(\
 
-for ff in `find . \( -name '*.mo' -or -name '*.mos' -or -name '*.py' -or -name '*.txt' -or -name '*.svg' \)`; do
-    list=(\
-# old_name new_name
 
 # Some justifications behind suggested modifications:
 
 # 1) if the model name indicates that the model calculates a value, I'd still prefer to 
 # fully specify the G36 relevant properties of the value in the variable name. For example
-# ZoneTemperatures: THeaSet -change to> TZonHeaSet. The goal would be to use the same
+# RooeTemperatures: THeaSet -change to> TRooHeaSet. The goal would be to use the same
 # variable name for the same physical/setpoint value throughout the G36 package, where possible. 
 
-# 2)
-#
-# 
+# 2) Any airflow from the terminal unit to the Rooe should have a *Dis* substring. Depending 
+# on the sequence, the substring replaced may be *Roo* or a lack of a label. The same goes for
+# terminal unit discharge temperatures, but should not get confused with the Rooe temperature.
 
-# in Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.SetPoints.ZoneTemperatures
+# 3) For zone we traditionaly use *Roo*
+
+# 4) Use dT for any differential temperatures
+
+# 5) I was conservative in alowing for long labels in an attempt to minimize unambiguity.
+
+# in Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.SetPoints.RooeTemperatures
     
      occCooSet occTDisSet \
-     TCooSet TZonCooSet \ 
-     THeaSet TZonHeaSet \ 
-     TCooOnMax TZonCooSetMax \  
-     TCooOnMin TZonCooSetMin \
-     THeaOnMax TZonHeaSetMax \
-     THeaOnMin TZonHeaSetMin \
-     TCooWinOpe TZonCooSetWinOpe \
-     THeaWinOpe TZonHeaSetWinOpe \ 
+     TCooSet TRooCooSet \
+     THeaSet TRooHeaSet \
+     TCooOnMax TRooCooSetMax \
+     TCooOnMin TRooCooSetMin \
+     THeaOnMax TRooHeaSetMax \
+     THeaOnMin TRooHeaSetMin \
+     TCooWinOpe TRooCooSetWinOpe \
+     THeaWinOpe TRooHeaSetWinOpe \     
 
 # in Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.Reheat.SetPoints.ActiveAirFlow
 
-     \
-     \
-     \
-     \
-     \
-     \
-     \
-     \
-     \
-     \
-     \
-     \
-     \
-     \
-     \
-    )
+     VCooMax VDisCooSetMax_flow \
+     VMin VDisSetMin_flow \
+     VHeaMax VDisHeaSetMax_flow \
+     VMinCon VDisConMin_flow \
+     AFlo RooAre \
+     outAirPerAre VOut \
+     outAirPerAre VOut_perAre_flow \
+     outAirPerPer VOut_perPer_flow \
+     VOccMinAir occVDisMin_flow \
+     VActCooMax VActCooMax_flow \
+     VActCooMin VActCooMin_flow \
+     VActMin VActMin_flow \
+     VActHeaMin VActHeaMin_flow \
+     VActHeaMax VActHeaMax_flow \
 
-    for ((i=0; i<${#list[@]}; i+=2)); do
-      sed -e s/${list[i]}/${list[i+1]}/g -i $ff
-   done
 
-done
+# Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.Reheat.SystemRequests
+
+     TCooSet TRooCooSet \
+     VDis VDis_flow \
+     VDisSet VDisSet_flow \
+     TDis \
+     cooSetDif_1 dTRoo_RooCooSet_1 \ # these are very long
+     cooSetDif_2 dTRoo_RooCooSet_2 \ 
+     disAirSetDif_1 dTDis_DisSet_1 \
+     disAirSetDif_2 dTDis_DisSet_2 \ 
+
+# Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.Reheat.DamperValves
+
+     dTDisMax dTDis_RooSet_Max \
+     V_flow_nominal VNom_flow \ 
+     VActCooMax VActCooMax_flow \ # same as G36_PR1.TerminalUnits.Reheat.SetPoints.ActiveAirFlow
+     VActCooMin VActCooMin_flow \ # same as G36_PR1.TerminalUnits.Reheat.SetPoints.ActiveAirFlow
+     VActMin VActMin_flow \ # same as G36_PR1.TerminalUnits.Reheat.SetPoints.ActiveAirFlow
+     VActHeaMin VActHeaMin_flow \ # same as in G36_PR1.TerminalUnits.Reheat.SetPoints.ActiveAirFlow
+     VActHeaMax VActHeaMax_flow \ # same as in G36_PR1.TerminalUnits.Reheat.SetPoints.ActiveAirFlow
+     VDis VDis_flow \ # same as in SystemRequests
+     THeaSet TRooHeaSet \
+     VDisSet VDisSet_flow \
+     TDisSet TDisHeaSet \
+ 
+# 
+
+
+
+
+#    for ((i=0; i<${#list[@]}; i+=2)); do
+#      sed -e s/${list[i]}/${list[i+1]}/g -i $ff
+#   done
+#
+#done
 
 
 # models to rename
 
 import buildingspy.development.refactor as r
 
-r.move_class("Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiZone",
-             "Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiZoneVAV")
+r.move_class("Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiRooe",
+             "Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiRooeVAV")
 
-r.move_class("Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.SingleZone",
-             "Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.SingleZoneVAV")
+r.move_class("Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.SingleRooe",
+             "Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.SingleRooeVAV")
 
 
