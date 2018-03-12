@@ -1,0 +1,42 @@
+# variables to rename
+
+for ff in `find . \( -name '*.mo' -or -name '*.mos' -or -name '*.py' -or -name '*.txt' -or -name '*.svg' \)`; do
+    list=(\
+    ecoDamLim damLim \
+    ecoEnaDis enaDis \
+    ecoMod mod \
+    uVOutMinSet_flow VOutMinSet_flow \
+    minVOut_flow VOutMin_flow \
+    desVOut_flow VOutDes_flow \
+    conSigMin yMin \
+    conSigMax yMax \
+    minFanSpe yFanMin \
+    maxFanSpe yFanMax \
+    fansSpePos fanSpePos \
+    curFanSpe uSupFan \
+    desVOutMinFanSpePos yDam_VOutDes_minSpe \
+    desVOutCurFanSpePos yDam_VOutDes_curSpe \
+    desVOutMaxFanSpePos yDam_VOutDes_maxSpe \
+    minVOutMinFanSpePos yDam_VOutMin_minSpe \
+    minVOutCurFanSpePos yDam_VOutMin_curSpe \
+    minVOutMaxFanSpePos yDam_VOutMin_maxSpe \
+    )
+
+    for ((i=0; i<${#list[@]}; i+=2)); do
+      sed -e s/${list[i]}/${list[i+1]}/g -i $ff
+   done
+
+done
+
+
+# models to rename
+
+import buildingspy.development.refactor as r
+
+r.move_class("Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiZone",
+             "Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiZoneVAV")
+
+r.move_class("Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.SingleZone",
+             "Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.SingleZoneVAV")
+
+
