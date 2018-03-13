@@ -22,7 +22,7 @@ block OutsideAirFlow
   parameter Boolean have_winSen=true
     "Set to true if zones have window status sensor";
   parameter Real occDen[numZon](each final unit="1/m2") = fill(0.05, numZon)
-    "Default number of person in unit area";
+    "Default number of persons in unit area";
   parameter Real zonDisEffHea[numZon](each final unit="1") = fill(0.8, numZon)
     "Zone air distribution effectiveness during heating";
   parameter Real zonDisEffCoo[numZon](each final unit="1") = fill(1.0, numZon)

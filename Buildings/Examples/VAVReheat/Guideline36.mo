@@ -158,15 +158,15 @@ equation
           255,0,255}));
   connect(occSch.tNexOcc, TSetZon.tNexOcc) annotation (Line(points={{-297,-204},
           {-254,-204},{-254,318},{59,318}}, color={0,0,127}));
-  connect(TSetZon.TZon, flo.TRooAir) annotation (Line(points={{59,315},{59,314},
-          {46,314},{46,626},{1164,626},{1164,491.333},{1094.14,491.333}}, color=
+  connect(TSetZon.TZon, flo.TRooAir) annotation (Line(points={{59,315},{59,314},{46,314},{46,626},{
+          1164,626},{1164,491.333},{1094.14,491.333}},                    color=
          {0,0,127}));
   connect(conAHU.THeaSet, TSetZon.THeaSet[1]) annotation (Line(points={{383,468},
           {110,468},{110,313},{81,313}},              color={0,0,127}));
   connect(conAHU.TCooSet, TSetZon.TCooSet[1]) annotation (Line(points={{383,464},
           {120,464},{120,317},{81,317}},              color={0,0,127}));
-  connect(conAHU.TZon, flo.TRooAir) annotation (Line(points={{383,452},{280,452},
-          {280,622},{1164,622},{1164,491.333},{1094.14,491.333}},
+  connect(conAHU.TZon, flo.TRooAir) annotation (Line(points={{383,452},{280,452},{280,622},{1164,
+          622},{1164,491.333},{1094.14,491.333}},
         color={0,0,127}));
   connect(conAHU.TOut, TOut.y) annotation (Line(points={{383,456},{-266,456},{-266,
           180},{-279,180}},                color={0,0,127}));

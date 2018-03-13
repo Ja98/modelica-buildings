@@ -14,7 +14,7 @@ block OutsideAirFlow
   parameter Boolean have_occSen
     "Set to true if zones have occupancy sensor";
   parameter Real occDen(final unit="1/m2") = 0.05
-    "Default number of person in unit area";
+    "Default number of persons in unit area";
   parameter Real zonDisEffHea(final unit="1") = 0.8
     "Zone air distribution effectiveness during heating";
   parameter Real zonDisEffCoo(final unit="1") = 1.0
