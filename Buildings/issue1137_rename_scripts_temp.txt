@@ -166,10 +166,10 @@ done
 
 import buildingspy.development.refactor as r
 
-r.move_class("Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiRooe",
-             "Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiRooeVAV")
+r.move_class("Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiZone",
+	"Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiZoneVAV")
 
-r.move_class("Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.SingleRooe",
-             "Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.SingleRooeVAV")
+r.move_class("Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.SingleZone",
+             "Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.SingleZoneVAV")
 
 
