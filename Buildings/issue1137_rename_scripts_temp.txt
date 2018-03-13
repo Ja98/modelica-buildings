@@ -1,9 +1,3 @@
-## variables to rename
-#
-# for ff in `find . \( -name '*.mo' -or -name '*.mos' -or -name '*.py' -or -name '*.txt' -or -name '*.svg' # \)`; do
-#    list=(\
-
-
 # Some justifications behind suggested modifications:
 
 # 1) if the model name indicates that the model calculates a value, I'd still prefer to 
@@ -15,32 +9,47 @@
 # on the sequence, the substring replaced may be *Roo* or a lack of a label. The same goes for
 # terminal unit discharge temperatures, but should not get confused with the Rooe temperature.
 
-# 3) For zone we traditionaly use *Roo*
+# 3) For single zone I'm using *Roo* instead of *Zon*
 
 # 4) Use dT for any differential temperatures
 
 # 5) I was conservative in alowing for long labels in an attempt to minimize unambiguity.
 
-# in Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.SetPoints.RooeTemperatures
+# 6) Use *Set* at the end of the string, unless it is the minimum or the maximum limit, in which
+# case one would use, for example, *SetMin.
+
+# 7) Damper position vs. damper position limit: Exhaust damper control signal generating sequences do not 
+# have the damper limits and thus generate the damper signal and not the damper position. This is not the # case with the rest of the dampers, which generate the damper position, since the physical damper 
+# position limits are provided as parameters set at commissioning (as discussed with Brent).
+
+
+# variables to rename
+
+for ff in `find . \( -name '*.mo' -or -name '*.mos' -or -name '*.py' -or -name '*.txt' -or -name '*.svg'  \)`; do
+    list=(\
+
+# Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits
+
+
+    # in Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.SetPoints.ZoneTemperatures
     
      occCooSet occTDisSet \
-     TCooSet TRooCooSet \
-     THeaSet TRooHeaSet \
-     TCooOnMax TRooCooSetMax \
-     TCooOnMin TRooCooSetMin \
-     THeaOnMax TRooHeaSetMax \
-     THeaOnMin TRooHeaSetMin \
-     TCooWinOpe TRooCooSetWinOpe \
-     THeaWinOpe TRooHeaSetWinOpe \     
+     TCooSet TZonCooSet \
+     THeaSet TZonHeaSet \
+     TCooOnMax TZonCooSetMax \
+     TCooOnMin TZonCooSetMin \
+     THeaOnMax TZonHeaSetMax \
+     THeaOnMin TZonHeaSetMin \
+     TCooWinOpe TZonCooSetWinOpe \
+     THeaWinOpe TZonHeaSetWinOpe \     
 
-# in Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.Reheat.SetPoints.ActiveAirFlow
+    # in Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.Reheat.SetPoints.ActiveAirFlow
 
      VCooMax VDisCooSetMax_flow \
      VMin VDisSetMin_flow \
      VHeaMax VDisHeaSetMax_flow \
      VMinCon VDisConMin_flow \
-     AFlo RooAre \
-     outAirPerAre VOut \
+     AFlo ZonAre \
      outAirPerAre VOut_perAre_flow \
      outAirPerPer VOut_perPer_flow \
      VOccMinAir occVDisMin_flow \
@@ -51,20 +60,20 @@
      VActHeaMax VActHeaMax_flow \
 
 
-# Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.Reheat.SystemRequests
-
-     TCooSet TRooCooSet \
+    # Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.Reheat.SystemRequests
+  
+     TCooSet TZonCooSet \
      VDis VDis_flow \
      VDisSet VDisSet_flow \
      TDis \
-     cooSetDif_1 dTRoo_RooCooSet_1 \ # these are very long
-     cooSetDif_2 dTRoo_RooCooSet_2 \ 
+     cooSetDif_1 dTZon_ZonCooSet_1 \ # these are very long
+     cooSetDif_2 dTZon_ZonCooSet_2 \ 
      disAirSetDif_1 dTDis_DisSet_1 \
      disAirSetDif_2 dTDis_DisSet_2 \ 
 
-# Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.Reheat.DamperValves
+    # Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.Reheat.DamperValves
 
-     dTDisMax dTDis_RooSet_Max \
+     dTDisMax dTDis_ZonSet_Max \
      V_flow_nominal VNom_flow \ 
      VActCooMax VActCooMax_flow \ # same as G36_PR1.TerminalUnits.Reheat.SetPoints.ActiveAirFlow
      VActCooMin VActCooMin_flow \ # same as G36_PR1.TerminalUnits.Reheat.SetPoints.ActiveAirFlow
@@ -72,20 +81,85 @@
      VActHeaMin VActHeaMin_flow \ # same as in G36_PR1.TerminalUnits.Reheat.SetPoints.ActiveAirFlow
      VActHeaMax VActHeaMax_flow \ # same as in G36_PR1.TerminalUnits.Reheat.SetPoints.ActiveAirFlow
      VDis VDis_flow \ # same as in SystemRequests
-     THeaSet TRooHeaSet \
+     THeaSet TZonHeaSet \
      VDisSet VDisSet_flow \
      TDisSet TDisHeaSet \
  
-# 
+    # Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.ModeAndSetPoints
+    # most of these need to be consistent with G36_PR1.TerminalUnits.SetPoints.ZoneTemperatures
+     THeaOn TZonHeaOn \
+     TCooOn TZonCooOn \
+     THeaOff TZonHeaOff \
+     TCooOff TZonCooOff \
+     freProThrVal TZon_frePro_on \
+     freProEndVal TZon_frePro_off \
+     TCooOnMax TZonCooSetMaxOn \ 
+     TCooOnMin TZonCooSetMinOn \ 
+     THeaOnMax TZonHeaSetMaxOff \
+     THeaOnMin TZonHeaSetMinOff \
+     TCooWinOpe TZonCooSetWinOpe \
+     THeaWinOpe TZonHeaSetWinOpe \
+     incSetDem_1 incTSetDem_1 \
+     incSetDem_2 incTSetDem_2 \
+     incSetDem_3 incTSetDem_3 \
+     decSetDem_1 decTSetDem_1 \
+     decSetDem_2 decTSetDem_2 \
+     decSetDem_3 decTSetDem_3 \
+
+# Buildings.Controls.OBC.ASHRAE.G36_PR1.Generic
+
+    # Buildings.Controls.OBC.ASHRAE.G36_PR1.Generic.SetPoints.OperationMode
+     THeaSet occTZonHeaSet \
+     TCooSet occTZonCooSet \
+     TZon TZon \
+     TUnoCooSet unoTZonCooSet \
+     TUnoHeaSet unoTZonHeaSet \
+     
+# Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.SingleZone
+
+    # SetPoints.ExhaustDamper
+     uFan uSupFan \ 
+
+    # Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.SingleZone.SetPoints.OutsideAirFlow
+     AFlo RooAre \ # already occured
+     outAirPerAre VOut_perAre_flow \ # already occured
+     outAirPerPer VOut_perPer_flow \ # already occured
+     TZon TRoo \ 
+     
+    # Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.SingleZone.SetPoints.VAVSupply
+     TMax TSupSetMax \
+     TMin TSupSetMin \
+     TSetZon TRooSet \
+     TZon TRoo \
+     THeaEco TSupHeaEco \
+     TCoo TSupCoo \
+
+    # Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiZone
+     TSupMin TSupSetMin \
+     TSupMax TSupSetMax \
+     TSupDes TSupSetDes \
+     TSetZones TZonSetAve \
+
+    # Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiZone.SetPoints.VAVSupplySignals
+     TSetSup TSupSet \
+     
+    # Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiZone.SetPoints.VAVSupplyFan
+     VBox_flow VDis_flow \
+     sumVBox_flow sumVDis_flow \  
+
+    # Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiZone.SetPoints.OutsideAirFlow
+     AFlo ZonAre \ # already occured
+     outAirPerAre VOut_perAre_flow \ # already occured
+     outAirPerPer VOut_perPer_flow \ # already occured
+      \ )
+     
 
 
+    for ((i=0; i<${#list[@]}; i+=2)); do
+        sed -e s/${list[i]}/${list[i+1]}/g -i $ff
+    done
 
-
-#    for ((i=0; i<${#list[@]}; i+=2)); do
-#      sed -e s/${list[i]}/${list[i+1]}/g -i $ff
-#   done
-#
-#done
+done
 
 
 # models to rename
