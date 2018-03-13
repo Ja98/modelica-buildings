@@ -1,35 +1,9 @@
-# Some justifications behind suggested modifications:
 
-# 1) if the model name indicates that the model calculates a value, I'd still prefer to 
-# fully specify the G36 relevant properties of the value in the variable name. For example
-# RooeTemperatures: THeaSet -change to> TRooHeaSet. The goal would be to use the same
-# variable name for the same physical/setpoint value throughout the G36 package, where possible. 
-
-# 2) Any airflow from the terminal unit to the Rooe should have a *Dis* substring. Depending 
-# on the sequence, the substring replaced may be *Roo* or a lack of a label. The same goes for
-# terminal unit discharge temperatures, but should not get confused with the Rooe temperature.
-
-# 3) For single zone I'm using *Roo* instead of *Zon*
-
-# 4) Use dT for any differential temperatures
-
-# 5) I was conservative in alowing for long labels in an attempt to minimize unambiguity.
-
-# 6) Use *Set* at the end of the string, unless it is the minimum or the maximum limit, in which
-# case one would use, for example, *SetMin.
-
-# 7) Damper position vs. damper position limit: Exhaust damper control signal generating sequences do not 
-# have the damper limits and thus generate the damper signal and not the damper position. This is not the # case with the rest of the dampers, which generate the damper position, since the physical damper 
-# position limits are provided as parameters set at commissioning (as discussed with Brent).
-
-
-# variables to rename
 
 for ff in `find . \( -name '*.mo' -or -name '*.mos' -or -name '*.py' -or -name '*.txt' -or -name '*.svg'  \)`; do
     list=(\
 
 # Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits
-
 
     # in Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.SetPoints.ZoneTemperatures
     
@@ -59,7 +33,6 @@ for ff in `find . \( -name '*.mo' -or -name '*.mos' -or -name '*.py' -or -name '
      VActHeaMin VActHeaMin_flow \
      VActHeaMax VActHeaMax_flow \
 
-
     # Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.Reheat.SystemRequests
   
      TCooSet TZonCooSet \
@@ -86,7 +59,7 @@ for ff in `find . \( -name '*.mo' -or -name '*.mos' -or -name '*.py' -or -name '
      TDisSet TDisHeaSet \
  
     # Buildings.Controls.OBC.ASHRAE.G36_PR1.TerminalUnits.ModeAndSetPoints
-    # most of these need to be consistent with G36_PR1.TerminalUnits.SetPoints.ZoneTemperatures
+    # (most of these need to be consistent with G36_PR1.TerminalUnits.SetPoints.ZoneTemperatures)
      THeaOn TZonHeaOn \
      TCooOn TZonCooOn \
      THeaOff TZonHeaOff \
@@ -160,16 +133,4 @@ for ff in `find . \( -name '*.mo' -or -name '*.mos' -or -name '*.py' -or -name '
     done
 
 done
-
-
-# models to rename
-
-import buildingspy.development.refactor as r
-
-r.move_class("Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiZone",
-	"Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.MultiZoneVAV")
-
-r.move_class("Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.SingleZone",
-             "Buildings.Controls.OBC.ASHRAE.G36_PR1.AHUs.SingleZoneVAV")
-
 
